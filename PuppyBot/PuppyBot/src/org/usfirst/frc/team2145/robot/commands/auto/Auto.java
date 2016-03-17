@@ -28,7 +28,7 @@ public class Auto{
 		if(!autos[mode][step].done){
 			autos[mode][step].run();
 		}else{
-			step=step+1
+			step=step+1;
 		}
 	}
 }
