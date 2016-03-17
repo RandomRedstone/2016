@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot{
 	}
 	public void autonomousPeriodic() {
 		drivetrain.run();
-		auto.execute();
+		auto.run();
 		cam.periodicCamera();
 	}
 	public void teleopInit() {
