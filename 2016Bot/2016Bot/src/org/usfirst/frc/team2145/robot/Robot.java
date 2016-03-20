@@ -1,17 +1,16 @@
 package org.usfirst.frc.team2145.robot;
 
-import org.usfirst.frc.team2145.robot.subsystems.Autonomous;
+import org.usfirst.frc.team2145.robot.commands.auto.Auto;
 import org.usfirst.frc.team2145.robot.subsystems.BoulderArm;
 import org.usfirst.frc.team2145.robot.subsystems.Camera;
 import org.usfirst.frc.team2145.robot.subsystems.Compress;
-import org.usfirst.frc.team2145.robot.subsystems.DashboardHandler;
 import org.usfirst.frc.team2145.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2145.robot.subsystems.GearShift;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,10 +24,10 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static GearShift gs;
 	public static Compress comp;
-	public static Autonomous auto;
+	public static Auto auto;
 	public static BoulderArm ba;
 	public static Camera cam;
-	public static DashboardHandler dh;
+	static int amode;
     public void robotInit() {
     	cam = new Camera();
     	cam.loadCamera();
@@ -37,8 +36,8 @@ public class Robot extends IterativeRobot {
 		gs = new GearShift();
 		comp = new Compress();
 		ba = new BoulderArm();
-		auto = new Autonomous();
-		dh = new DashboardHandler();
+		auto = new Auto();
+		cam.initCamera();
     }
     public void disabledInit(){
     	oi.rumble(1, 2, 0.0f);
@@ -46,17 +45,27 @@ public class Robot extends IterativeRobot {
     }
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+    	cam.periodicCamera();
+    	int pov;
+		if(oi.cont1POV>=0){
+			pov = oi.cont1POV/45;
+		}else{
+			pov = -1;
+		}
+		if(pov==0){
+			amode=0;
+		}
+		SmartDashboard.putNumber("POV", pov);
 	}
     public void autonomousInit() {
-        //auto.init();
+        auto.init(amode);
     }
     public void autonomousPeriodic() {
     	Scheduler.getInstance().run();
-    	//auto.run();
+    	auto.run();
     }
     public void teleopInit() {
     	LiveWindow.run();
-    	cam.initCamera();
     }
     public void teleopPeriodic() {
     	cam.periodicCamera();

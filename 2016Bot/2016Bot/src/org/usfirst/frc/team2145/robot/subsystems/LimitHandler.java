@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class LimitHandler{
-	static CANTalon axisMotor;
+	public CANTalon axisMotor;
 	static int lastDirection;
 	static DigitalInput lswitch;
 	static int allowedDirection;
@@ -14,6 +14,24 @@ public class LimitHandler{
 		axisMotor = new CANTalon(20);
 		lastDirection = 0;
 		lswitch = new DigitalInput(5);
+	}
+	public void auto(double a) {
+		if(a>0.2 && lswitch.get()==false){
+			axisMotor.set(a*0.15);
+			lastDirection=-1;
+		}else if(a<-0.2){
+			axisMotor.set(a*0.25);
+			lastDirection=1;
+		}else{
+			axisMotor.set(0);
+		}
+		if(lastDirection == -1 && lswitch.get()){
+			allowedDirection=1;
+		}else if(lastDirection == 1 && lswitch.get()){
+			allowedDirection=-1;
+		}else{
+			allowedDirection=0;
+		}
 	}
 	public void run() {
 		if(Robot.oi.cont2Axis[1]>0.2 && lswitch.get()==false){

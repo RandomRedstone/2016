@@ -21,8 +21,7 @@ public class Camera extends Subsystem{
 	}
 	public void loadCamera() {
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-		session = NIVision.IMAQdxOpenCamera("cam0",
-				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 	}
 	public void initCamera() {
 		NIVision.IMAQdxConfigureGrab(session);

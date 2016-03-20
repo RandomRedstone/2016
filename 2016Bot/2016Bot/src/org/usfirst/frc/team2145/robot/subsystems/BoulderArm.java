@@ -25,10 +25,10 @@ public class BoulderArm {
 		}else{
 			piston.set(false);
 		}
-		if(Robot.oi.cont2Buttons[5]){
+		if(Robot.oi.cont2Buttons[2]){
 			lLaunch.set(0.5);
 			rLaunch.set(-0.5);
-		}else if(Robot.oi.cont2Buttons[6]){
+		}else if(Robot.oi.cont2Buttons[3]){
 			lLaunch.set(-0.75);
 			rLaunch.set(0.75);
 		}else{
